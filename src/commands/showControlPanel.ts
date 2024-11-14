@@ -7,6 +7,9 @@ import { uploadFile } from './uploadFile';
 import { runCode } from './runCode';
 import { resetDevice } from './resetDevice';
 import { rescanPorts } from '../utils/serialPorts';
+import { eraseFlash } from './eraseFlash';
+import { flashFirmware } from './flashFirmware';
+import { listFiles } from './listFiles';
 
 export function showControlPanel(context: vscode.ExtensionContext) {
     const panel = vscode.window.createWebviewPanel(
@@ -31,11 +34,9 @@ export function showControlPanel(context: vscode.ExtensionContext) {
     
     let htmlContent = fs.readFileSync(webviewPath, 'utf-8');
 
-    // Вставляем пути к CSS и JS в HTML
     htmlContent = htmlContent.replace('${stylePath}', stylePath.toString());
     htmlContent = htmlContent.replace('${scriptPath}', scriptPath.toString());
 
-    // Устанавливаем базовый URI для webview
     htmlContent = htmlContent.replace(
         /(<head>)/,
         `$1<base href="${panel.webview.asWebviewUri(vscode.Uri.file(path.join(context.extensionPath, 'src', 'webview')))}">`
@@ -43,47 +44,66 @@ export function showControlPanel(context: vscode.ExtensionContext) {
 
     panel.webview.html = htmlContent;
 
-    // Получаем сохранённый порт из настроек
     const savedPort = vscode.workspace.getConfiguration().get<string>('espTool.port', '');
 
-    // Инициализация списка портов при загрузке панели, включая передачу сохранённого порта
     rescanPorts(panel, savedPort);
 
     panel.webview.onDidReceiveMessage(async (message) => {
         switch (message.command) {
+            case 'eraseFlash':
+                vscode.window.showInformationMessage('Стирание флеша');
+                await eraseFlash();
+                break;
+    
+            case 'flashFirmware':
+                vscode.window.showInformationMessage('Прошивка микроконтроллера');
+                await flashFirmware(context);
+                break;
+    
             case 'run':
                 vscode.window.showInformationMessage('Запуск загрузки файлов и main.py');
                 await disconnectREPL();
                 await uploadFile();
                 await runCode();
                 break;
-
+    
             case 'stop':
                 vscode.window.showInformationMessage('Остановка main.py');
                 await resetDevice();
                 break;
-
+    
             case 'connect':
                 vscode.window.showInformationMessage('Подключение к REPL');
                 await connectREPL();
                 break;
-
+    
             case 'disconnect':
                 vscode.window.showInformationMessage('Отключение от REPL');
                 await disconnectREPL();
                 break;
-
+    
             case 'rescanPorts':
                 rescanPorts(panel, savedPort);
                 break;
-
+    
             case 'changePort':
                 updatePortSetting(message.port);
                 break;
 
-            case 'error':
-                vscode.window.showErrorMessage(`Ошибка: ${message.message}`);
+            case 'uploadFile':
+                vscode.window.showInformationMessage('Загрузка файла');
+                await uploadFile();
                 break;
+
+            case 'resetDevice':
+                vscode.window.showInformationMessage('Перезагрузка устройства');
+                await resetDevice();
+                break;
+            
+            case 'listFiles':
+                vscode.window.showInformationMessage('Получение списка файлов');
+                await listFiles();
+                break;    
 
             default:
                 vscode.window.showWarningMessage(`Неизвестная команда: ${message.command}`);
@@ -92,7 +112,6 @@ export function showControlPanel(context: vscode.ExtensionContext) {
     });
 }
 
-// Функция для обновления выбранного порта в настройках
 async function updatePortSetting(port: string) {
     try {
         await vscode.workspace.getConfiguration().update('espTool.port', port, vscode.ConfigurationTarget.Global);

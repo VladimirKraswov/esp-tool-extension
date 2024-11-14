@@ -9,20 +9,44 @@
 <body>
     <div class="panel">
         <h2>ESP Control Panel</h2>
-        
-        <!-- Dropdown to select port -->
-        <label for="portSelect">Select Port:</label>
-        <select id="portSelect" onchange="changePort()"></select>
-        <button class="rescan-button" onclick="rescanPorts()">Rescan Ports</button>
 
-        <!-- Button group for control actions -->
-        <div class="button-group">
-            <button onclick="run()">Run</button>
-            <button onclick="stop()">Stop</button>
-            <button onclick="toggleConnect()">Connect/Disconnect</button>
+        <!-- Секция выбора порта -->
+        <div class="section">
+            <label for="portSelect">Select Port:</label>
+            <select id="portSelect" onchange="changePort()"></select>
+            <button class="rescan-button" onclick="rescanPorts()">Rescan Ports</button>
+        </div>
+
+        <!-- Секция управления прошивкой -->
+        <div class="section">
+            <h3>Firmware Control</h3>
+            <div class="button-group">
+                <button onclick="eraseFlash()">Erase Flash</button>
+                <button onclick="flashFirmware()">Flash Firmware</button>
+            </div>
+        </div>
+
+        <!-- Секция управления REPL -->
+        <div class="section">
+            <h3>REPL Control</h3>
+            <div class="button-group">
+                <button onclick="connectREPL()">Connect to REPL</button>
+                <button onclick="disconnectREPL()">Disconnect REPL</button>
+                <button onclick="resetDevice()">Reset Device</button>
+            </div>
+        </div>
+
+        <!-- Секция управления файлами -->
+        <div class="section">
+            <h3>File Management</h3>
+            <div class="button-group">
+                <button onclick="uploadFile()">Upload File</button>
+                <button onclick="listFiles()">List Files</button>
+                <button onclick="runCode()">Run Code</button>
+            </div>
         </div>
     </div>
-    
+
     <script src="${scriptPath}"></script>
 </body>
 </html>

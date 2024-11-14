@@ -5,15 +5,48 @@ window.onload = function() {
     rescanPorts();
 };
 
-// Request available ports from the extension and populate the dropdown
 function rescanPorts() {
     vscode.postMessage({ command: 'rescanPorts' });
 }
 
-// Function to send selected port to extension when changed
 function changePort() {
     const selectedPort = document.getElementById('portSelect').value;
     vscode.postMessage({ command: 'changePort', port: selectedPort });
+}
+
+// Firmware control functions
+function eraseFlash() {
+    vscode.postMessage({ command: 'eraseFlash' });
+}
+
+function flashFirmware() {
+    vscode.postMessage({ command: 'flashFirmware' });
+}
+
+// REPL control functions
+function connectREPL() {
+    vscode.postMessage({ command: 'connect' });
+}
+
+function disconnectREPL() {
+    vscode.postMessage({ command: 'disconnect' });
+}
+
+function resetDevice() {
+    vscode.postMessage({ command: 'resetDevice' });
+}
+
+// File management functions
+function uploadFile() {
+    vscode.postMessage({ command: 'uploadFile' });
+}
+
+function listFiles() {
+    vscode.postMessage({ command: 'listFiles' });
+}
+
+function runCode() {
+    vscode.postMessage({ command: 'run' });
 }
 
 // Populate the dropdown with received ports and select savedPort if available
@@ -31,7 +64,6 @@ window.addEventListener('message', event => {
             option.value = port.path;
             option.textContent = `${port.path} (${port.description || 'Unknown'})`;
             
-            // Check if this option matches the saved port
             if (port.path === message.savedPort) {
                 option.selected = true;
                 savedPortFound = true;
@@ -40,22 +72,8 @@ window.addEventListener('message', event => {
             portSelect.appendChild(option);
         });
 
-        // If saved port is not found, select the first port in the list by default
         if (!savedPortFound && portSelect.options.length > 0) {
             portSelect.options[0].selected = true;
         }
     }
 });
-
-function run() {
-    vscode.postMessage({ command: 'run' });
-}
-
-function stop() {
-    vscode.postMessage({ command: 'stop' });
-}
-
-function toggleConnect() {
-    const selectedPort = document.getElementById('portSelect').value;
-    vscode.postMessage({ command: 'connect', port: selectedPort });
-}
