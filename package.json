@@ -33,7 +33,7 @@
         "title": "ESP Tool: Отключить REPL"
       },
       {
-        "command": "espTool.uploadFile",
+        "command": "espTool.uploadProject",
         "title": "ESP Tool: Загрузить файл"
       },
       {

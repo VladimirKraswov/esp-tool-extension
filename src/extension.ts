@@ -3,7 +3,7 @@ import { eraseFlash } from './commands/eraseFlash';
 import { flashFirmware } from './commands/flashFirmware';
 import { connectREPL } from './commands/connectREPL';
 import { disconnectREPL } from './commands/disconnectREPL';
-import { uploadFile } from './commands/uploadFile';
+import { uploadProjectToController } from './commands/uploadProject';
 import { listFiles } from './commands/listFiles';
 import { runCode } from './commands/runCode';
 import { resetDevice } from './commands/resetDevice';
@@ -88,7 +88,7 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.registerCommand('espTool.flashFirmware', () => flashFirmware(context)),
         vscode.commands.registerCommand('espTool.connectREPL', connectREPL),
         vscode.commands.registerCommand('espTool.disconnectREPL', disconnectREPL),
-        vscode.commands.registerCommand('espTool.uploadFile', uploadFile),
+        vscode.commands.registerCommand('espTool.uploadProject', uploadProjectToController),
         vscode.commands.registerCommand('espTool.listFiles', listFiles),
         vscode.commands.registerCommand('espTool.runCode', runCode),
         vscode.commands.registerCommand('espTool.resetDevice', resetDevice),

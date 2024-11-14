@@ -37,8 +37,8 @@ function resetDevice() {
 }
 
 // File management functions
-function uploadFile() {
-    vscode.postMessage({ command: 'uploadFile' });
+function uploadProject() {
+    vscode.postMessage({ command: 'uploadProject' });
 }
 
 function listFiles() {

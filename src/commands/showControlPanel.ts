@@ -3,13 +3,13 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { disconnectREPL } from './disconnectREPL';
 import { connectREPL } from './connectREPL';
-import { uploadFile } from './uploadFile';
-import { runCode } from './runCode';
-import { resetDevice } from './resetDevice';
+import { uploadProjectToController } from './uploadProject';
+// import { runCode } from './runCode';
+// import { resetDevice } from './resetDevice';
 import { rescanPorts } from '../utils/serialPorts';
 import { eraseFlash } from './eraseFlash';
 import { flashFirmware } from './flashFirmware';
-import { listFiles } from './listFiles';
+// import { listFiles } from './listFiles';
 
 export function showControlPanel(context: vscode.ExtensionContext) {
     const panel = vscode.window.createWebviewPanel(
@@ -50,6 +50,14 @@ export function showControlPanel(context: vscode.ExtensionContext) {
 
     panel.webview.onDidReceiveMessage(async (message) => {
         switch (message.command) {
+            case 'rescanPorts':
+                rescanPorts(panel, savedPort);
+                break;
+            
+            case 'changePort':
+                updatePortSetting(message.port);
+                break;
+
             case 'eraseFlash':
                 vscode.window.showInformationMessage('Стирание флеша');
                 await eraseFlash();
@@ -60,17 +68,17 @@ export function showControlPanel(context: vscode.ExtensionContext) {
                 await flashFirmware(context);
                 break;
     
-            case 'run':
-                vscode.window.showInformationMessage('Запуск загрузки файлов и main.py');
-                await disconnectREPL();
-                await uploadFile();
-                await runCode();
-                break;
+            // case 'run':
+            //     vscode.window.showInformationMessage('Запуск загрузки файлов и main.py');
+            //     await disconnectREPL();
+            //     await uploadProjectToController();
+            //     await runCode();
+            //     break;
     
-            case 'stop':
-                vscode.window.showInformationMessage('Остановка main.py');
-                await resetDevice();
-                break;
+            // case 'stop':
+            //     vscode.window.showInformationMessage('Остановка main.py');
+            //     await resetDevice();
+            //     break;
     
             case 'connect':
                 vscode.window.showInformationMessage('Подключение к REPL');
@@ -81,29 +89,21 @@ export function showControlPanel(context: vscode.ExtensionContext) {
                 vscode.window.showInformationMessage('Отключение от REPL');
                 await disconnectREPL();
                 break;
-    
-            case 'rescanPorts':
-                rescanPorts(panel, savedPort);
-                break;
-    
-            case 'changePort':
-                updatePortSetting(message.port);
-                break;
 
-            case 'uploadFile':
+            case 'uploadProject':
                 vscode.window.showInformationMessage('Загрузка файла');
-                await uploadFile();
+                await uploadProjectToController();
                 break;
 
-            case 'resetDevice':
-                vscode.window.showInformationMessage('Перезагрузка устройства');
-                await resetDevice();
-                break;
+            // case 'resetDevice':
+            //     vscode.window.showInformationMessage('Перезагрузка устройства');
+            //     await resetDevice();
+            //     break;
             
-            case 'listFiles':
-                vscode.window.showInformationMessage('Получение списка файлов');
-                await listFiles();
-                break;    
+            // case 'listFiles':
+            //     vscode.window.showInformationMessage('Получение списка файлов');
+            //     await listFiles();
+            //     break;    
 
             default:
                 vscode.window.showWarningMessage(`Неизвестная команда: ${message.command}`);

@@ -55,7 +55,7 @@ npm manifest:
           "title": "ESP Tool: Connect REPL"
         },
         {
-          "command": "espTool.uploadFile",
+          "command": "espTool.uploadProject",
           "title": "ESP Tool: Upload File"
         },
         {
@@ -86,7 +86,7 @@ npm manifest:
             "when": "editorTextFocus"
           },
           {
-            "command": "espTool.uploadFile",
+            "command": "espTool.uploadProject",
             "when": "editorTextFocus"
           },
           {
