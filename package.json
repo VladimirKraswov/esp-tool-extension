@@ -1,0 +1,125 @@
+{
+  "name": "esp-tool-extension",
+  "displayName": "ESP Tool Extension",
+  "description": "Расширение для взаимодействия с ESP микроконтроллерами",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "ignoreWords": [
+    "svgr"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "espTool.eraseFlash",
+        "title": "ESP Tool: Стереть флеш"
+      },
+      {
+        "command": "espTool.flashFirmware",
+        "title": "ESP Tool: Залить прошивку"
+      },
+      {
+        "command": "espTool.connectREPL",
+        "title": "ESP Tool: Подключиться к REPL"
+      },
+      {
+        "command": "espTool.disconnectREPL",
+        "title": "ESP Tool: Отключить REPL"
+      },
+      {
+        "command": "espTool.uploadFile",
+        "title": "ESP Tool: Загрузить файл"
+      },
+      {
+        "command": "espTool.listFiles",
+        "title": "ESP Tool: Список файлов"
+      },
+      {
+        "command": "espTool.runCode",
+        "title": "ESP Tool: Запустить код"
+      },
+      {
+        "command": "espTool.resetDevice",
+        "title": "ESP Tool: Перезагрузить устройство"
+      },
+      {
+        "command": "espTool.showControlPanel",
+        "title": "ESP Tool: Показать панель управления"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "ESP Tool Configuration",
+      "properties": {
+        "espTool.port": {
+          "type": "string",
+          "default": "/dev/ttyUSB0",
+          "description": "Серийный порт для подключения к микроконтроллеру."
+        },
+        "espTool.baudRate": {
+          "type": "number",
+          "default": 115200,
+          "description": "Скорость передачи данных для серийного порта."
+        },
+        "espTool.chipType": {
+          "type": "string",
+          "default": "esp32",
+          "enum": ["esp32", "esp8266"],
+          "description": "Тип чипа микроконтроллера (esp32 или esp8266)."
+        },
+        "espTool.firmwarePath": {
+          "type": "string",
+          "default": "esp8266-20170108-v1.8.7.bin",
+          "description": "Путь к файлу прошивки MicroPython для микроконтроллера."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.95.0",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^9.13.0",
+    "typescript": "^5.6.3",
+    "ts-loader": "^9.5.1",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "webpack-merge": "^5.8.0",
+    "html-webpack-plugin": "^5.5.0",
+    "react-refresh-webpack-plugin": "^0.5.7",
+    "monaco-editor-webpack-plugin": "^4.1.3",
+    "file-loader": "^6.2.0",
+    "@svgr/webpack": "^6.5.1",
+    "style-loader": "^3.3.3",
+    "css-loader": "^6.7.3",
+    "sass-loader": "^13.2.0",
+    "sass": "^1.62.0",
+    "eslint-loader": "^4.0.2",
+    "ignore-loader": "^0.1.2"
+  },
+  "dependencies": {
+  }
+}
