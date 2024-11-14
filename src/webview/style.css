@@ -1,0 +1,79 @@
+/* Общие стили для страницы */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1e1e1e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: #ffffff;
+}
+
+/* Карточка панели управления */
+.panel {
+  background-color: #2d2d2d;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.panel h2 {
+  font-size: 1.5em;
+  color: #ffffff;
+  margin-bottom: 1em;
+}
+
+/* Стили для элементов выбора порта */
+.panel label {
+  font-size: 0.9em;
+  color: #cccccc;
+}
+
+.panel select {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0 16px 0;
+  background-color: #3a3a3a;
+  border: 1px solid #555555;
+  border-radius: 4px;
+  font-size: 1em;
+  color: #ffffff;
+}
+
+/* Кнопки */
+.panel button {
+  background-color: #007acc;
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px 0;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.panel button:hover {
+  background-color: #005ea2;
+}
+
+/* Дополнительные стили для кнопок */
+.panel .button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Стили для кнопки Rescan Ports */
+.rescan-button {
+  background-color: #ff9800;
+}
+
+.rescan-button:hover {
+  background-color: #e68900;
+}

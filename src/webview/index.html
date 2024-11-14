@@ -4,27 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESP Control Panel</title>
+    <link rel="stylesheet" href="${stylePath}">
 </head>
 <body>
-    <h2>ESP Control Panel</h2>
-    <button onclick="run()">Run</button>
-    <button onclick="stop()">Stop</button>
-    <button onclick="toggleConnect()">Connect/Disconnect</button>
+    <div class="panel">
+        <h2>ESP Control Panel</h2>
+        
+        <!-- Dropdown to select port -->
+        <label for="portSelect">Select Port:</label>
+        <select id="portSelect" onchange="changePort()"></select>
+        <button class="rescan-button" onclick="rescanPorts()">Rescan Ports</button>
+
+        <!-- Button group for control actions -->
+        <div class="button-group">
+            <button onclick="run()">Run</button>
+            <button onclick="stop()">Stop</button>
+            <button onclick="toggleConnect()">Connect/Disconnect</button>
+        </div>
+    </div>
     
-    <script>
-        const vscode = acquireVsCodeApi();
-
-        function run() {
-            vscode.postMessage({ command: 'run' });
-        }
-
-        function stop() {
-            vscode.postMessage({ command: 'stop' });
-        }
-
-        function toggleConnect() {
-            vscode.postMessage({ command: 'connect' });
-        }
-    </script>
+    <script src="${scriptPath}"></script>
 </body>
 </html>
